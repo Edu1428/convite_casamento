@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Convite de Casamento - Eduardo e Lorhaine</title>
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <!-- Montserrat para o texto da logo estilo Marvel. Playfair para os textos elegantes do convite -->
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@900&family=Playfair+Display:ital,wght@0,400;0,600;1,400&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body class="locked-scroll">
+
+    <!-- Botão de ligar o som caso o autoplay seja bloqueado pelo navegador -->
+    <div id="soundButton" class="sound-button hidden">🔊 Ligar Som</div>
+
+    <!-- Áudio da Abertura -->
+    <audio id="introMusic" src="assets/musica_casamento.mpeg" autoplay preload="auto"></audio>
+
+    <!-- Efeito de Abertura Estilo Marvel -->
+    <div class="marvel-intro-container" id="marvelIntro">
+        <!-- Vídeo ou Imagens passando ao fundo -->
+        <div class="video-container" id="marvelBackground">
+            <!-- Para simular a Marvel de forma mais dinâmica, usaremos o JS para piscar várias imagens super rápido aqui. 
+                 Se preferir o vídeo direto, podemos trocar por uma tag <video> depois. -->
+        </div>
+
+        <!-- Camada de Máscara de Mistura (Mix Blend Mode) -->
+        <div class="text-mask-layer" id="marvelMask">
+            <div class="title-container">
+                <h1 class="marvel-text" id="marvelText">
+                    O GRANDE<br>DIA
+                </h1>
+                <h2 class="marvel-subtitle" id="marvelSubtitle">ESTÁ CHEGANDO</h2>
+            </div>
+        </div>
+
+        <!-- Efeito de clarão de luz (Flash) -->
+        <div class="flash-effect" id="flashEffect"></div>
+    </div>
+
+    <!-- Corpo do Site do Convite (Escondido inicialmente por estar sob a intro) -->
+    <main class="invitation-content" id="mainContent">
+        
+        <!-- Hero Section (Primeira tela pós-abertura) -->
+        <section class="hero-section cinematic-reveal">
+            <div class="hero-content">
+                <div class="hero-video-wrapper">
+                    <video src="assets/video_hero.mp4" class="hero-video" autoplay muted loop playsinline></video>
+                    <div class="video-gradient"></div>
+                </div>
+                <h2 class="elegant-title">Eduardo & Lorhaine</h2>
+                <p class="elegant-subtitle">Com a bênção de Deus e de nossos pais, convidamos você para celebrar nosso amor.</p>
+                <div class="scroll-indicator">
+                    <span>Role para descobrir</span>
+                    <div class="mouse">
+                        <div class="wheel"></div>
+                    </div>
+                </div>
+            </div>
+            <!-- Fundo dinâmico da Hero (opcional, pode ser uma foto ou gradiente Terracota) -->
+            <div class="hero-bg"></div>
+        </section>
+
+        <!-- Seção de A História / Texto Convite -->
+        <section class="story-section">
+            <div class="container fade-in-up">
+                <h3 class="section-title">Nossa Alegria</h3>
+                <p class="story-text">
+                    Cada momento que compartilhamos nos trouxe até aqui. 
+                    Será uma alegria imensa ter você e sua família no dia mais importante de nossas vidas.
+                </p>
+                <div class="divider-terracota"></div>
+            </div>
+        </section>
+
+        <!-- Seção de Detalhes do Evento -->
+        <section class="details-section">
+            <div class="container">
+                <div class="details-grid">
+                    <div class="detail-card fade-in-up" style="transition-delay: 0.1s;">
+                        <h4 class="detail-label">Quando</h4>
+                        <div class="detail-value text-terracota">12 de Setembro</div>
+                        <p class="detail-sub">2026 às 15:30 horas</p>
+                    </div>
+                    <div class="detail-card fade-in-up" style="transition-delay: 0.3s;">
+                        <h4 class="detail-label">Onde</h4>
+                        <div class="detail-value text-terracota">Cerimônia e Festa</div>
+                        <p class="detail-sub">R. Imeri - Vista Alegre<br>São Gonçalo - RJ, 24722-070</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Seção de Confirmação e Presentes -->
+        <section class="action-section" style="padding-top: 20px;">
+            <div class="container fade-in-up">
+                <h3 class="section-title">Aceita fazer parte desse momento com a gente?</h3>
+                <p class="action-text">Acesse nosso site para confirmar sua presença e ver nossa lista de presentes.</p>
+                
+                <div class="buttons-container">
+                    <a href="https://noivos.casar.com/lorhaine-e-eduardo" target="_blank" rel="noopener noreferrer" class="btn btn-primary">Acessar Site do Casamento</a>
+                </div>
+            </div>
+        </section>
+
+        <footer>
+            <p>Com amor, Edu & Lorhaine.</p>
+        </footer>
+
+    </main>
+
+    <script src="script.js"></script>
+</body>
+</html>

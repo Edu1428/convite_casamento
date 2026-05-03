@@ -1,0 +1,490 @@
+/* Cores Oficiais do Casamento */
+:root {
+    --color-terracota: #c05c43;
+    --color-terracota-dark: #a24733;
+    --color-cream: #fdfcfb;
+    --color-dark: #2d2825;
+    --color-light-accent: #f4efea;
+    
+    --font-marvel: 'Montserrat', sans-serif;
+    --font-heading: 'Playfair Display', serif;
+    --font-body: 'Inter', sans-serif;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    background-color: var(--color-cream);
+    color: var(--color-dark);
+    font-family: var(--font-body);
+    overflow-x: hidden;
+    scroll-behavior: smooth;
+}
+
+/* Trava de scroll para a intro rodar lisinha */
+body.locked-scroll {
+    overflow: hidden;
+}
+
+/* =======================================================
+   ABERTURA ESTILO MARVEL
+   ======================================================= */
+.marvel-intro-container {
+    position: fixed;
+    top: 0; left: 0;
+    width: 100vw; height: 100vh;
+    background-color: black;
+    z-index: 9999;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+    transition: opacity 0.5s ease-in-out;
+}
+
+.video-container.single-mode {
+    position: absolute;
+    top: 0; left: 0; 
+    width: 100%; height: 100%;
+    background-color: black;
+    overflow: hidden;
+}
+
+.single-media {
+    position: absolute;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    object-fit: cover;
+    opacity: 0;
+    transition: opacity 0.8s ease-in-out; /* Transição mais suave entre as fotos e vídeos */
+}
+
+.single-media.active {
+    opacity: 1;
+    /* Zoom lento em cada vídeo para dar um efeito cinematográfico épico enquanto passa */
+    animation: cinematicZoom 1.5s ease-out forwards;
+}
+
+@keyframes cinematicZoom {
+    0% { transform: scale(1); }
+    100% { transform: scale(1.05); }
+}
+
+.text-mask-layer {
+    position: absolute;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    /* Onde for branco, a imagem de baixo vai aparecer. Onde for preto, não aparece. */
+    background-color: black; 
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    mix-blend-mode: multiply; /* A MÁGICA ACONTECE AQUI */
+    will-change: transform;
+    opacity: 0; /* Começa oculto: vemos os vídeos em tela cheia! */
+    transition: opacity 1s ease-in-out; 
+}
+
+/* O script adicionará no texto a classe show-mask */
+.text-mask-layer.show-mask {
+    opacity: 1; /* Revela o fundo preto e a máscara das letras */
+}
+
+.title-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.marvel-text {
+    /* Essa cor dita onde o vídeo aparece (branco). */
+    color: white; 
+    font-family: var(--font-marvel);
+    /* Tamanho massivo para o efeito */
+    font-size: min(15vw, 150px); 
+    font-weight: 900;
+    text-align: center;
+    line-height: 0.9;
+    letter-spacing: -2px;
+    text-transform: uppercase;
+    transform: scale(10); /* Começa gigante para a máscara estar fora da tela */
+    transition: transform 6s cubic-bezier(0.1, 0.7, 0.1, 1); /* Animação BEM mais lenta */
+}
+
+.marvel-subtitle {
+    color: white;
+    font-family: var(--font-heading);
+    font-size: clamp(1.2rem, 3vw, 2.5rem);
+    letter-spacing: 15px;
+    margin-top: 40px;
+    text-transform: uppercase;
+    opacity: 0;
+    transition: opacity 3s ease-in-out; /* Transição de suspense bem lenta */
+}
+
+/* A animação do Zoom de recuo aplicada via JS */
+.marvel-text.zoom-out {
+    transform: scale(1); /* Desce para encaixar a tela na palavra */
+}
+
+.flash-effect {
+    position: absolute;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    background-color: white;
+    opacity: 0;
+    pointer-events: none;
+    z-index: 10;
+    transition: opacity 1s cubic-bezier(1, 0, 0, 1);
+}
+
+/* =======================================================
+   ESTILOS DO BOTÃO DE SOM (FALLBACK AUTOPLAY)
+   ======================================================= */
+.sound-button {
+    position: fixed;
+    bottom: 30px;
+    right: 30px;
+    background-color: var(--color-terracota);
+    color: white;
+    padding: 12px 20px;
+    border-radius: 50px;
+    font-family: var(--font-body);
+    font-weight: 500;
+    font-size: 0.9rem;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+    z-index: 10000;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    animation: bounce 2s infinite;
+}
+
+.sound-button.hidden {
+    display: none;
+}
+
+@keyframes bounce {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-10px); }
+}
+
+/* =======================================================
+   ESTILOS DO CORPO DO SITE / CONVITE
+   ======================================================= */
+.invitation-content {
+    /* Mostrado após o final da intro */
+    opacity: 0;
+    transition: opacity 1s ease-in-out;
+}
+
+.invitation-content.visible {
+    opacity: 1;
+}
+
+/* Hero Section */
+.hero-section {
+    position: relative;
+    min-height: 100vh; /* Permite crescer se o conteúdo for grande */
+    height: auto;
+    padding: 40px 0; /* Padding menor no mobile para ganhar espaço */
+    display: flex;
+    justify-content: center; /* Mantém centralizado mas o margin-top levanta */
+    align-items: center;
+    text-align: center;
+    background: linear-gradient(135deg, var(--color-cream) 0%, var(--color-light-accent) 100%);
+    overflow: hidden;
+}
+
+.hero-bg {
+    position: absolute;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    background: radial-gradient(circle, transparent 20%, rgba(192, 92, 67, 0.03) 100%); /* Toque muito sutil de terracota no fundo */
+    z-index: -1;
+}
+
+.hero-content {
+    z-index: 1;
+    padding: 0 20px;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: -8vh; /* Levanta todo o bloco do vídeo e texto para cima */
+}
+
+.hero-video-wrapper {
+    position: relative;
+    width: 100%;
+    max-width: 450px; 
+    margin: 0 auto 10px auto; /* Reduzido o espaço entre o vídeo e o título */
+    border-radius: 20px;
+    overflow: hidden; 
+    /* Sombra com um leve tom terracota para harmonizar com a paleta */
+    box-shadow: 0 25px 50px rgba(192, 92, 67, 0.12);
+    opacity: 0; 
+}
+
+.hero-video {
+    width: 100%;
+    height: auto;
+    max-height: 60vh; /* Um pouco mais de espaço vertical para o vídeo */
+    object-fit: cover;
+    display: block; 
+}
+
+.video-gradient {
+    position: absolute;
+    bottom: 0; left: 0;
+    width: 100%;
+    height: 35%; 
+    background: linear-gradient(to top, var(--color-cream) 0%, transparent 100%);
+    pointer-events: none;
+}
+
+.elegant-title {
+    font-family: var(--font-heading);
+    /* Texto se adapta melhor no mobile evitando quebrar feio */
+    font-size: clamp(2.4rem, 8vw, 5.5rem); 
+    color: var(--color-terracota-dark); /* Mais escuro para melhor contraste e elegância */
+    font-weight: 500;
+    margin-bottom: 15px;
+    line-height: 1.1; 
+    opacity: 0; 
+}
+
+.elegant-subtitle {
+    font-family: var(--font-body);
+    font-size: clamp(0.95rem, 3vw, 1.2rem);
+    color: var(--color-dark);
+    max-width: 600px;
+    margin: 0 auto;
+    padding: 0 15px; /* Garante que o texto não cole nas bordas do celular */
+    font-weight: 300;
+    line-height: 1.6; 
+    opacity: 0;
+}
+
+/* Scroll Indication (Mouse wheel animation) */
+.scroll-indicator {
+    position: relative;
+    margin-top: 30px; /* Dá espaço seguro do subtítulo para baixo */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+    opacity: 0; 
+}
+
+.scroll-indicator span {
+    font-size: 0.8rem;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    color: var(--color-terracota);
+}
+
+.mouse {
+    width: 26px;
+    height: 42px;
+    border: 2px solid var(--color-terracota);
+    border-radius: 20px;
+    display: flex;
+    justify-content: center;
+    padding-top: 5px;
+}
+
+.wheel {
+    width: 4px;
+    height: 8px;
+    background-color: var(--color-terracota);
+    border-radius: 4px;
+    animation: scrollWheel 2s infinite;
+}
+
+@keyframes scrollWheel {
+    0% { transform: translateY(0); opacity: 1; }
+    100% { transform: translateY(15px); opacity: 0; }
+}
+
+/* Seções Gerais */
+section {
+    padding: 100px 20px;
+    display: flex;
+    justify-content: center;
+}
+
+.container {
+    max-width: 1000px;
+    width: 100%;
+    text-align: center;
+}
+
+.section-title {
+    font-family: var(--font-heading);
+    font-size: 2.5rem;
+    color: var(--color-terracota-dark);
+    margin-bottom: 30px;
+}
+
+.story-text, .action-text {
+    font-size: 1.1rem;
+    line-height: 1.8;
+    color: var(--color-dark);
+    max-width: 700px;
+    margin: 0 auto;
+}
+
+.divider-terracota {
+    width: 60px;
+    height: 2px;
+    background-color: var(--color-terracota);
+    margin: 40px auto;
+}
+
+/* Grid de Detalhes */
+.details-section {
+    background-color: var(--color-light-accent);
+}
+
+.details-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 40px;
+}
+
+.detail-card {
+    background-color: white;
+    padding: 40px 20px;
+    border-radius: 8px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.03);
+}
+
+.detail-label {
+    font-size: 0.9rem;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    color: #888;
+    margin-bottom: 15px;
+}
+
+.detail-value {
+    font-family: var(--font-heading);
+    font-size: 2rem;
+    margin-bottom: 10px;
+}
+
+.text-terracota {
+    color: var(--color-terracota);
+}
+
+.detail-sub {
+    font-size: 1rem;
+    line-height: 1.5;
+    color: #666;
+}
+
+/* Botões */
+.buttons-container {
+    display: flex;
+    gap: 20px;
+    justify-content: center;
+    margin-top: 40px;
+    flex-wrap: wrap;
+}
+
+.btn {
+    padding: 15px 40px;
+    font-size: 1rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    text-decoration: none;
+    border-radius: 50px;
+    transition: all 0.3s ease;
+}
+
+.btn-primary {
+    background-color: var(--color-terracota);
+    color: white;
+    border: 2px solid var(--color-terracota);
+}
+
+.btn-primary:hover {
+    background-color: var(--color-terracota-dark);
+    box-shadow: 0 8px 20px rgba(192, 92, 67, 0.3);
+}
+
+.btn-secondary {
+    background-color: transparent;
+    color: var(--color-terracota);
+    border: 2px solid var(--color-terracota);
+}
+
+.btn-secondary:hover {
+    background-color: var(--color-terracota);
+    color: white;
+}
+
+/* Rodapé */
+footer {
+    text-align: center;
+    padding: 40px 20px;
+    background-color: var(--color-dark);
+    color: var(--color-light-accent);
+    font-family: var(--font-heading);
+    font-style: italic;
+    font-size: 1.2rem;
+}
+
+/* =======================================================
+   ANIMAÇÕES E UTILITÁRIOS (INTERSECTION OBSERVER)
+   ======================================================= */
+.fade-in-up {
+    opacity: 0;
+    transform: translateY(30px);
+    transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+}
+
+.fade-in-up.appear {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.cinematic-reveal .hero-video-wrapper {
+    animation: fadeInUp 1.2s ease-out forwards;
+    animation-delay: 0.2s;
+}
+
+.cinematic-reveal .elegant-title {
+    animation: fadeInUp 1.2s ease-out forwards;
+    animation-delay: 0.5s;
+}
+
+.cinematic-reveal .elegant-subtitle {
+    animation: fadeInUp 1.2s ease-out forwards;
+    animation-delay: 0.8s;
+}
+
+.cinematic-reveal .scroll-indicator {
+    animation: fadeIn 1s ease-out forwards;
+    animation-delay: 1.5s;
+}
+
+@keyframes fadeInUp {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+@media (max-width: 768px) {
+    .marvel-text {
+        font-size: 20vw; /* Adaptação para celular */
+    }
+}
